@@ -36,14 +36,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Stockfish stockfish = new Stockfish();
 
- // In main.GamePanel.java constructor
+
     public GamePanel() {
         this.mouse = new Mouse(this); 
         
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.black);
         
-        // ➡️ CRITICAL FIX: Ensure the panel can receive focus/input
+
         setFocusable(true); 
 
         addMouseMotionListener(mouse);
@@ -106,33 +106,33 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    // In main.GamePanel.java
+
     private void update() {
         if (gameover || stalemate || promotion || aiIsMoving) {
             if (promotion) promoting();
             return;
         }
 
-        // 1. Check for initial click (only fires once per physical mouse press)
+
         if (mouse.pressedFired) {
             if (activeP == null) {
-                // Attempt selection only when the click is fresh and no piece is active
+                
                 selectActivePiece(); 
             }
-            mouse.pressedFired = false; // Consume the click event immediately
+            mouse.pressedFired = false;
         }
 
-        // 2. Check for continuous dragging
+        // 2. Checking for continuous dragging
         if (mouse.pressed && activeP != null) {
             simulate(); // Only simulate if a piece is already active and the button is held
         }
 
-        // 3. Check for release
+        // 3. Checking for release
         if (!mouse.pressed && activeP != null) handleMoveRelease();
     }
       private void selectActivePiece() {
         
-        // ➡️ DEBUG: Print mouse click coordinates and calculated square.
+        // debug: Print mouse click coordinates and calculated square.
         int clickedCol = mouse.x / Board.sqSize;
         int clickedRow = mouse.y / Board.sqSize;
         
@@ -148,7 +148,7 @@ public class GamePanel extends JPanel implements Runnable {
                 p.col == clickedCol && 
                 p.row == clickedRow) {  
                 
-                // ➡️ SUCCESS: If you see this, selection worked!
+               
                 System.out.println("SUCCESS: Found Piece: " + p.type + " at (" + p.col + ", " + p.row + ")");
                 activeP = p;
                 activeP.preCol = activeP.col;
@@ -330,7 +330,7 @@ public class GamePanel extends JPanel implements Runnable {
     
     // ---------------- Check/Mate/Stalemate Logic ----------------
     
-    // Helper to simulate a move and revert it (for checkmate/stalemate checks)
+    
     private boolean tryMove(Piece piece, int targetCol, int targetRow) {
         // Backup states
         int preCol = piece.col;
