@@ -11,27 +11,27 @@ public class Stockfish {
     private BufferedReader reader;
     private OutputStreamWriter writer;
 
- // In main.Stockfish.java
+ 
 
     public void startEngine(String path) {
         try {
-            // Use ProcessBuilder with the exact path to the executable
-            // path is now: "C:\\stockfish\\stockfish\\stockfish-windows-x86-64-avx2.exe"
+ 
+ 
             engineProcess = new ProcessBuilder(path).start();
             
             reader = new BufferedReader(new InputStreamReader(engineProcess.getInputStream()));
             writer = new OutputStreamWriter(engineProcess.getOutputStream());
             
-            // 1. Send UCI command to switch to the Universal Chess Interface mode
+            //  Sending UCI command to switch to the Universal Chess Interface mode
             sendCommand("uci");
             
-            // 2. Send isready command and wait for 'readyok' confirmation
+            // 2. Sending isready command and wait for 'readyok' confirmation
             sendCommand("isready");
             
             while(true) {
                 String line = reader.readLine();
                 if (line == null) {
-                    // Handle case where engine process might have failed immediately
+                    
                     throw new IOException("Stockfish engine quit unexpectedly during startup.");
                 }
                 if (line.contains("readyok")) break;
